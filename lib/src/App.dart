@@ -1,12 +1,34 @@
 import 'package:flutter/material.dart';
+import 'dart:core';
+import 'dart:convert';
+import 'dart:math';
+import 'package:http/http.dart';
+import '../models/Image.dart';
 
 class App extends StatefulWidget {
-  // @override
+  @override
   _AppState createState() => _AppState();
 }
 
 class _AppState extends State<App> {
-  int count = 0;
+  List<ImageModel> imageList = new List();
+
+  int randomNum() {
+    final int number = new Random().nextInt(4999) + 1;
+    return number + 1;
+  }
+
+  void fetchImage() {
+    int pic = randomNum();
+    String getURL = "http://jsonplaceholder.typicode.com/photos/$pic";
+
+    get(getURL).then((data) => {
+          setState(() {
+            imageList.add(ImageModel.fromJson(jsonDecode(data.body)));
+          }),
+          print(imageList.toString())
+        });
+  }
 
   Widget build(context) {
     return MaterialApp(
@@ -14,9 +36,9 @@ class _AppState extends State<App> {
       appBar: AppBar(
         title: Text("Let's see some pics!"),
       ),
-      body: Text('COUNT: $count'),
+      body: Text(imageList.toString()),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => setState(() => count += 1),
+        onPressed: fetchImage,
         tooltip: "Add an image",
         child: Icon(Icons.add),
       ),
