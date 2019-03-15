@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:http/http.dart';
 import '../models/Image.dart';
+import '../widgets/image-list.dart';
 
 class App extends StatefulWidget {
   @override
@@ -36,7 +37,7 @@ class _AppState extends State<App> {
       appBar: AppBar(
         title: Text("Let's see some pics!"),
       ),
-      body: Text(imageList.toString()),
+      body: Images(imageList),
       floatingActionButton: FloatingActionButton(
         onPressed: fetchImage,
         tooltip: "Add an image",
